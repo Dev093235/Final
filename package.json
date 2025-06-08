@@ -1,7 +1,7 @@
 {
-  "name": "mirai-bot",
+  "name": "fb-bulletproof-bot",
   "version": "1.0.0",
-  "description": "A Facebook Messenger Bot like Mirai by Mohit",
+  "description": "A Facebook Messenger Bot using appstate login, proxy-ready and command-based.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -9,6 +9,12 @@
   "dependencies": {
     "chalk": "latest",
     "fca-unofficial": "latest",
-    "fs-extra": "latest"
-  }
+    "fs-extra": "latest",
+    "axios": "latest"
+  },
+  "engines": {
+    "node": ">=18.x"
+  },
+  "author": "Rudra System",
+  "license": "MIT"
 }

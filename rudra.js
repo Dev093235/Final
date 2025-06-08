@@ -1,22 +1,45 @@
-const login = require("fca-unofficial");
+/**
+ * Rudra Bot by Mohit 🛡️
+ * Final working version using appstate.json
+ */
+
 const fs = require("fs");
+const login = require("fca-unofficial");
 
-const appState = JSON.parse(fs.readFileSync("appstate.json", "utf-8"));
+// ✅ Step 1: Check if appstate.json exists
+if (!fs.existsSync("./appstate.json")) {
+  console.log("❌ appstate.json not found! Please paste your Facebook cookies in appstate.json file.");
+  process.exit(1);
+}
 
+// ✅ Step 2: Load and parse cookies
+let appState;
+try {
+  appState = JSON.parse(fs.readFileSync("./appstate.json", "utf8"));
+} catch (e) {
+  console.error("❌ Error reading appstate.json:", e.message);
+  process.exit(1);
+}
+
+// ✅ Step 3: Login using cookies
 login({ appState }, (err, api) => {
-  if (err) return console.error("❌ Login failed:", err);
+  if (err) {
+    console.error("❌ Facebook login failed:", err.error || err);
+    return;
+  }
 
-  console.log("✅ Rudra Bot is online!");
+  console.log("✅ Rudra Bot Started Successfully! 🔥");
 
-  api.listenMqtt((err, message) => {
-    if (err) return console.error("❌ Listen Error:", err);
+  // Bot logic here
+  api.setOptions({ listenEvents: true });
 
-    console.log(`📥 Message from ${message.senderID}: ${message.body}`);
-    api.sendMessage("🔄 Auto-response: Message received!", message.threadID);
+  const stopListening = api.listenMqtt((err, event) => {
+    if (err) return console.error("❌ Listener error:", err);
+
+    // Example: auto-reply to message
+    if (event.type === "message" && event.body) {
+      const reply = `👋 Hello ${event.senderID}, you said: ${event.body}`;
+      api.sendMessage(reply, event.threadID);
+    }
   });
-
-  setTimeout(() => {
-    console.log("🕒 Rudra shutting down after 6 hours.");
-    process.exit(0);
-  }, 1000 * 60 * 360); // 6 hours
 });

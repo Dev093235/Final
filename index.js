@@ -1,33 +1,26 @@
-const login = require("fca-unofficial");
-const fs = require("fs");
-const chalk = require("chalk");
-const path = require("path");
+import chalk from "chalk";
+import fca from "fca-unofficial";
+import fs from "fs-extra";
+import axios from "axios";
 
-const appState = require("./appstate.json");
-const commandsPath = path.join(__dirname, "commands");
-const commands = {};
+// Sample log to test chalk
+console.log(chalk.green("Bot is starting..."));
 
-// Load all commands
-fs.readdirSync(commandsPath).forEach(file => {
-  if (file.endsWith(".js")) {
-    const command = require(path.join(commandsPath, file));
-    commands[command.config.name] = command.run;
-  }
-});
+// Your existing fca-unofficial login code here
+// Example placeholder (replace with your logic):
+const appStatePath = "./appstate1.json";
 
-login({ appState }, (err, api) => {
-  if (err) return console.error("Login error:", err);
-  console.log(chalk.green("🤖 Bot is now running..."));
+const appState = await fs.readJSON(appStatePath);
 
-  api.listenMqtt((err, event) => {
-    if (err || event.type !== "message") return;
+fca({ appState }, (err, api) => {
+  if (err) return console.error(chalk.red("Login failed:"), err);
 
-    const body = event.body || "";
-    const prefix = "!";
-    if (!body.startsWith(prefix)) return;
+  console.log(chalk.green("Logged in successfully!"));
 
-    const [cmdName, ...args] = body.slice(prefix.length).trim().split(/\s+/);
-    const command = commands[cmdName.toLowerCase()];
-    if (command) command({ api, event, args });
+  // Bot logic here, for example:
+  api.listenMqtt((err, message) => {
+    if (err) return console.error(err);
+    console.log(chalk.blue("New message:"), message);
+    // Your message handling logic...
   });
 });

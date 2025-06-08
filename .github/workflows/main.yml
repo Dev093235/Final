@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -15,26 +15,16 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          # cache option hata diya hai
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run npm audit fix
-      run: |
-        npm audit fix || echo "npm audit fix encountered issues but continuing workflow"
-
-    - name: Run Tests (Optional)
-      run: npm test
-      # Remove or comment above if you don't have tests
-
-    - name: Build (Optional)
-      run: npm run build
-      # Remove or comment above if you don't have a build step
+      - name: Run tests
+        run: npm test

@@ -1,21 +1,20 @@
 {
-  "name": "fb-bulletproof-bot",
+  "name": "rudra",
   "version": "1.0.0",
-  "description": "A Facebook Messenger Bot using appstate login, proxy-ready and command-based.",
+  "description": "Rudra Facebook Messenger bot",
   "main": "Rudra.js",
-  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "node Rudra.js",
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
-    "chalk": "latest",
     "fca-unofficial": "latest",
-    "fs-extra": "latest",
-    "axios": "latest"
+    "axios": "latest",
+    "fs-extra": "latest"
   },
-  "engines": {
-    "node": ">=18.x"
-  },
-  "author": "Rudra System",
+  "author": "Mohit Bhubo",
   "license": "MIT"
 }

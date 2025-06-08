@@ -1,0 +1,14 @@
+{
+  "name": "mirai-bot",
+  "version": "1.0.0",
+  "description": "A Facebook Messenger Bot like Mirai by Mohit",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "chalk": "latest",
+    "fca-unofficial": "latest",
+    "fs-extra": "latest"
+  }
+}

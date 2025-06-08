@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A Facebook Messenger Bot using appstate login, proxy-ready and command-based.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
   },

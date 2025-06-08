@@ -1,43 +1,27 @@
-name: Node.js CI
+name: Facebook Bot Auto
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
+  run-bot:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
+    timeout-minutes: 360
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: 🟨 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18
 
-      - name: Cache node modules and npm cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.npm
-            node_modules
-          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json', 'package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ matrix.node-version }}-
+      - name: 📦 Install Dependencies
+        run: npm install || true
 
-      - name: Install dependencies
-        run: npm install
-
-      # Agar test script hai to uncomment kar sakta hai ye step
-      # - name: Run tests
-      #   run: npm test
+      - name: 🏃 Run the Bot
+        run: |
+          echo "Bot started... running for 6 hours max."
+          node bot.js || node index.js || echo "Bot file not found!"

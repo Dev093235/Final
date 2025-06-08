@@ -15,16 +15,19 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - name: ⬇️ Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🔧 Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: 📦 Install Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: ✅ Run Bot (Test Run)
+      - name: Fix Vulnerabilities (npm audit fix)
+        run: npm audit fix
+
+      - name: Run Bot (Test Run)
         run: node index.js

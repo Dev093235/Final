@@ -1,27 +1,23 @@
-name: Facebook Bot Auto
+name: Run Rudra Bot
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
 
     steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: 🟨 Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
 
-      - name: 📦 Install Dependencies
-        run: npm install || true
+    - name: Install dependencies
+      run: npm install
 
-      - name: 🏃 Run the Bot
-        run: |
-          echo "Bot started... running for 6 hours max."
-          node bot.js || node index.js || echo "Bot file not found!"
+    - name: Start Rudra Bot (6 hours)
+      run: npm start

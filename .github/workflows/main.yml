@@ -1,23 +1,28 @@
-name: Run Rudra Bot
+name: Rudra Bot Uptime
 
 on:
+  push:
   workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"  # Every 6 hours
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Start Rudra Bot (6 hours)
-      run: npm start
+      - name: Run Rudra bot
+        run: |
+          node Rudra.js &
+          sleep 21600

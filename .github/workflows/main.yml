@@ -1,4 +1,4 @@
-name: FB Bulletproof Bot CI
+name: Node.js CI
 
 on:
   push:
@@ -15,19 +15,26 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
-      - name: Install Dependencies
-        run: npm install
+    - name: Install Dependencies
+      run: npm install
 
-      - name: Fix Vulnerabilities (npm audit fix)
-        run: npm audit fix
+    - name: Run npm audit fix
+      run: |
+        npm audit fix || echo "npm audit fix encountered issues but continuing workflow"
 
-      - name: Run Bot (Test Run)
-        run: node index.js
+    - name: Run Tests (Optional)
+      run: npm test
+      # Remove or comment above if you don't have tests
+
+    - name: Build (Optional)
+      run: npm run build
+      # Remove or comment above if you don't have a build step

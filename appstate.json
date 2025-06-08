@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "key": "c_user",
+    "value": "100000000000000"
+  },
+  {
+    "key": "xs",
+    "value": "34%ABC123FakeXSValue%3A2%3A"
+  },
+  {
+    "key": "datr",
+    "value": "SomeFakeDatrToken"
+  },
+  {
+    "key": "fr",
+    "value": "FakeFRToken"
+  },
+  {
+    "key": "sb",
+    "value": "FakeSBToken"
+  }
+]

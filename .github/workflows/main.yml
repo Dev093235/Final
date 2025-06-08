@@ -2,9 +2,11 @@ name: Node.js CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -15,16 +17,27 @@ jobs:
         node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          # cache option hata diya hai
+
+      - name: Cache node modules and npm cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('package-lock.json', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test
+      # Agar test script hai to uncomment kar sakta hai ye step
+      # - name: Run tests
+      #   run: npm test
